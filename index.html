@@ -237,11 +237,102 @@
     }
     .wa-float:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(37,211,102,.55); }
     .wa-float svg { width: 28px; height: 28px; fill: #fff; }
-    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }  </style>
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }  } }
+      /* Hamburger button */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: .25rem;
+      flex-shrink: 0;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: transform .25s, opacity .2s;
+    }
+    .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    /* Links row */
+    .site-nav__links {
+      display: flex;
+      align-items: stretch;
+    }
+    .site-nav__links a {
+      display: flex;
+      align-items: center;
+      padding: .75rem .8rem;
+      font-size: .8rem;
+      font-weight: 600;
+      color: rgba(255,255,255,.78);
+      text-decoration: none;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      transition: color .15s, border-color .15s;
+    }
+    .site-nav__links a:hover { color: #fff; border-bottom-color: rgba(255,255,255,.4); }
+    .site-nav__links a.nav-active { color: #fff; border-bottom-color: #e8500a; }
+    .site-nav__links .nav-book {
+      background: #e8500a;
+      color: #fff;
+      border-radius: 6px;
+      border-bottom: none;
+      margin: .45rem 0 .45rem .4rem;
+      padding: .4rem .9rem;
+      font-weight: 700;
+      align-self: center;
+    }
+    .site-nav__links .nav-book:hover { background: #c44008; border-bottom: none; color: #fff; }
+    .site-nav__links .nav-book.nav-active { background: #c44008; }
+    /* Mobile & tablet: hamburger */
+    @media (max-width: 768px) {
+      .nav-toggle { display: flex; }
+      .site-nav__links {
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #1a4fa0;
+        box-shadow: 0 8px 20px rgba(0,0,0,.25);
+        z-index: 199;
+        padding: .25rem 0 .75rem;
+      }
+      .site-nav__links.is-open { display: flex; }
+      .site-nav__links a {
+        padding: .85rem 1.25rem;
+        font-size: .95rem;
+        border-bottom: 1px solid rgba(255,255,255,.1);
+        border-right: none;
+      }
+      .site-nav__links a.nav-active {
+        background: rgba(255,255,255,.08);
+        border-bottom: 1px solid rgba(255,255,255,.1);
+      }
+      .site-nav__links .nav-book {
+        margin: .6rem 1.25rem .25rem;
+        justify-content: center;
+        border-radius: 6px;
+        font-size: .95rem;
+        outline: none;
+      }
+    }
+  </style>
 </head>
 <body>
-
-  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+<nav class="site-nav" role="navigation" aria-label="Main navigation">
     <a class="site-nav__logo" href="homepage.html">OrthoNow</a>
     <div class="site-nav__links">
       <a href="homepage.html">Home</a>
@@ -251,6 +342,10 @@
       <a href="index.html" class="nav-book nav-active">Book Consultation</a>
       <a href="tel:+918045678900" class="nav-call" data-location="nav">Call Now</a>
     </div>
+  
+  <button class="nav-toggle" id="nav-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-links">
+    <span></span><span></span><span></span>
+  </button>
   </nav>
 
   <div class="proof-bar" role="region" aria-label="OrthoNow at a glance">
@@ -467,7 +562,11 @@
         <a href="guide.html">Patient Guide</a>
         <a href="homepage.html#blog">Blog</a>
         <a href="privacy.html">Privacy Policy</a>
-      </nav>
+      
+  <button class="nav-toggle" id="nav-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-links">
+    <span></span><span></span><span></span>
+  </button>
+  </nav>
       <p>&copy; 2025 OrthoNow &middot; 9 clinics &middot; Bengaluru, Hyderabad &amp; Chennai</p>
       <p style="margin-top:.25rem">Page managed by <a href="https://namoza.com">Namoza</a></p>
     </div>
@@ -807,7 +906,51 @@
       <path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.117 1.534 5.845L.073 23.927l6.222-1.433A11.942 11.942 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.797 9.797 0 01-5.003-1.374l-.36-.213-3.713.856.882-3.607-.234-.371A9.818 9.818 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/>
     </svg>
     <span class="sr-only">Chat on WhatsApp</span>
-  </a></body>
+  </a>
+  <script>
+    (function () {
+      var btn   = document.getElementById('nav-toggle');
+      var links = document.getElementById('nav-links');
+      if (!btn || !links) return;
+
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = links.classList.contains('is-open');
+        links.classList.toggle('is-open', !open);
+        btn.setAttribute('aria-expanded', String(!open));
+      });
+
+      // Close when any nav link is tapped
+      links.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          links.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      // Close on outside tap
+      document.addEventListener('click', function (e) {
+        if (!btn.contains(e.target) && !links.contains(e.target)) {
+          links.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    })();
+  </script>
+</body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

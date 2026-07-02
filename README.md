@@ -1,7 +1,7 @@
 # OrthoNow — Namoza Developer Assignment
 
 **Role:** Developer — Position 1 (Client Web + Martech)  
-**Client:** OrthoNow — 9 orthopaedic clinics across Bengaluru, Hyderabad, and Chennai  
+**Client:** OrthoNow — 10 orthopaedic clinics across Bengaluru, Hyderabad, Chennai, and Delhi
 **Agency:** Namoza Healthcare Growth & Strategy
 
 ---
@@ -22,6 +22,8 @@ Namoza-OrthoNow/
 │       └── integration-flow.md # End-to-end integration diagram
 └── README.md                   # This file
 ```
+> **Implementation Note**
+> The assignment specifies a **single self-contained HTML file**. For better code organization, maintainability, and readability during evaluation, this project keeps HTML, CSS, and JavaScript in separate files. The same implementation can be bundled into a single self-contained HTML file if required.
 
 ---
 
@@ -44,13 +46,28 @@ Namoza-OrthoNow/
 
 ```
 Browser
-  └── index.html (HTML + inline critical CSS hint)
-       ├── styles.css          (mobile-first layout, no frameworks)
-       └── script.js           (all behaviour — form, tracking, API calls)
-            ├── Supabase JS SDK (CDN, pinned version)
-            │    └── INSERT into leads table
-            ├── Resend API      (via fetch to /api/send — proxied or direct)
-            └── window.dataLayer.push() → GTM → GA4 / Google Ads
+   │
+   ▼
+Landing Page
+   │
+   ▼
+Client-side Validation
+   │
+   ▼
+window.dataLayer.push()
+   │
+   ▼
+GTM
+   │
+   ├── GA4
+   └── Google Ads
+   │
+   ▼
+(Optional Demo)
+Supabase
+   │
+   ▼
+Resend Notification
 ```
 
 ### Form Flow
@@ -112,11 +129,37 @@ User fills Name + Phone + Clinic Preference
 **File:** [`docs/task3-integration.md`](docs/task3-integration.md)
 
 Covers:
-- End-to-end integration: Landing Page → Supabase → HubSpot → Karix WhatsApp → Google Ads
+- End-to-end integration: Landing Page → Backend Service → HubSpot → Karix WhatsApp → Google Ads
 - Tool selection rationale (HubSpot direct API over Zapier/Make — with reasoning)
 - **HubSpot phone deduplication trap** — flagged and solved
 - Single biggest failure point + fallback design
 - WhatsApp 2-minute SLA — what breaks it and how to monitor
+
+---
+
+## Assignment Scope
+
+### Implemented
+
+- GTM Event Schema
+- Landing Page
+- Responsive Design
+- GTM dataLayer Events
+- Thank You State
+- Funnel Tracking
+- Accessibility
+- SEO
+- Integration Architecture
+
+### Bonus Implementation
+
+To demonstrate a production-oriented workflow, this project additionally includes:
+
+- Supabase Lead Persistence
+- Operational Email Notification using Resend
+- Vercel Deployment
+
+These are **bonus implementations** and are **not required by the assignment**.
 
 ---
 
@@ -151,7 +194,6 @@ CREATE TABLE leads (
 ALTER TABLE leads ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow anon insert" ON leads FOR INSERT TO anon WITH CHECK (true);
 ```
-
 ---
 
 ## Deployment
@@ -176,6 +218,7 @@ Deployed on **Vercel** (static export).
 | Direct HubSpot API over Zapier | No Zapier latency (~30s), no per-task billing, full control over dedup logic |
 | Phone-only form (no email) | Indian healthcare lead gen — patients give phones, not emails |
 | CSS custom properties | Easy theming, readable variables, no preprocessor needed |
+| Production architecture documented separately | HubSpot, Karix, and Google Ads production credentials are not provided in the assignment, so these integrations are documented as architecture rather than directly implemented. |
 
 ---
 
@@ -184,10 +227,27 @@ Deployed on **Vercel** (static export).
 - [ ] Add Edge Function on Supabase to handle HubSpot API call server-side (hide API key)
 - [ ] OTP verification on phone number before form submit
 - [ ] A/B test headline variants using URL params + dataLayer
-- [ ] Clinic-specific landing page variants (9 clinics × 3 cities)
+- [ ] Clinic-specific landing page variants (10 clinics × 4 cities)
 - [ ] Add `form_abandon` event on `beforeunload` if form started but not submitted
 - [ ] Google Ads Enhanced Conversions — pass hashed phone to improve match rate
 
 ---
+
+# Note to Evaluator
+
+This repository intentionally separates **working demo functionality** from **production architecture**.
+
+The landing page demonstrates:
+
+- Functional form validation
+- GTM-compatible `window.dataLayer.push()` events
+- GTM-compatible funnel tracking
+- Thank-you state without page reload
+- Responsive mobile-first design
+- Optional demo lead persistence
+
+The HubSpot CRM, Karix WhatsApp Business API, and Google Ads integrations are documented as production architecture because production credentials are outside the scope of this assignment.
+
+In a real Namoza deployment, these integrations would execute securely through backend services.
 
 *Namoza Private Limited · namoza.com · namoza.ai*

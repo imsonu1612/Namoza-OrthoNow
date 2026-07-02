@@ -58,17 +58,118 @@
     :focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; border-radius: 4px; }
     .wrap { width: 100%; max-width: 880px; margin-inline: auto; padding-inline: 1rem; }
 
-    /* nav */
-    .site-nav { background: var(--blue); padding: 0 1.25rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; box-shadow: 0 2px 8px rgba(0,0,0,.18); }
-    .site-nav__logo { font-size: 1.15rem; font-weight: 800; color: #fff; letter-spacing: -.3px; padding: .75rem 0; flex-shrink: 0; text-decoration: none; }
-    .site-nav__links { display: flex; align-items: stretch; gap: 0; }
-    .site-nav__links a { display: flex; align-items: center; padding: .75rem .85rem; font-size: .82rem; font-weight: 600; color: rgba(255,255,255,.75); text-decoration: none; border-bottom: 3px solid transparent; transition: color .15s, border-color .15s; white-space: nowrap; }
+    /* ---- NAV ---- */
+    .site-nav {
+      background: #1a4fa0;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    }
+    .site-nav__logo {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.3px;
+      padding: .75rem 0;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    /* Hamburger button */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: .25rem;
+      flex-shrink: 0;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: transform .25s, opacity .2s;
+    }
+    .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    /* Links row */
+    .site-nav__links {
+      display: flex;
+      align-items: stretch;
+    }
+    .site-nav__links a {
+      display: flex;
+      align-items: center;
+      padding: .75rem .8rem;
+      font-size: .8rem;
+      font-weight: 600;
+      color: rgba(255,255,255,.78);
+      text-decoration: none;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      transition: color .15s, border-color .15s;
+    }
     .site-nav__links a:hover { color: #fff; border-bottom-color: rgba(255,255,255,.4); }
     .site-nav__links a.nav-active { color: #fff; border-bottom-color: #e8500a; }
-    .site-nav__links .nav-book { background: var(--orange); color: #fff; border-radius: var(--r); margin: .5rem 0 .5rem .5rem; padding: .45rem 1rem; border-bottom: none; font-weight: 700; align-self: center; }
-    .site-nav__links .nav-book:hover { background: var(--orange-dk); border-bottom: none; color: #fff; }
-    @media (max-width: 600px) { .site-nav__links a:not(.nav-book):not(.nav-call) { display: none; } }
-
+    .site-nav__links .nav-book {
+      background: #e8500a;
+      color: #fff;
+      border-radius: 6px;
+      border-bottom: none;
+      margin: .45rem 0 .45rem .4rem;
+      padding: .4rem .9rem;
+      font-weight: 700;
+      align-self: center;
+    }
+    .site-nav__links .nav-book:hover { background: #c44008; border-bottom: none; color: #fff; }
+    .site-nav__links .nav-book.nav-active { background: #c44008; }
+    /* Mobile & tablet: hamburger */
+    @media (max-width: 768px) {
+      .nav-toggle { display: flex; }
+      .site-nav__links {
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #1a4fa0;
+        box-shadow: 0 8px 20px rgba(0,0,0,.25);
+        z-index: 199;
+        padding: .25rem 0 .75rem;
+      }
+      .site-nav__links.is-open { display: flex; }
+      .site-nav__links a {
+        padding: .85rem 1.25rem;
+        font-size: .95rem;
+        border-bottom: 1px solid rgba(255,255,255,.1);
+        border-right: none;
+      }
+      .site-nav__links a.nav-active {
+        background: rgba(255,255,255,.08);
+        border-bottom: 1px solid rgba(255,255,255,.1);
+      }
+      .site-nav__links .nav-book {
+        margin: .6rem 1.25rem .25rem;
+        justify-content: center;
+        border-radius: 6px;
+        font-size: .95rem;
+        outline: none;
+      }
+    }
     /* hero */
     .clinic-hero { background: linear-gradient(158deg, #1a4fa0 0%, #0d3272 100%); padding: 2.5rem 1rem 3rem; color: #fff; }
     .clinic-hero h1 { font-size: 1.75rem; font-weight: 800; line-height: 1.2; margin-bottom: .4rem; }
@@ -166,13 +267,13 @@
     }
     .wa-float:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(37,211,102,.55); }
     .wa-float svg { width: 28px; height: 28px; fill: #fff; }
-    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }  </style>
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }  } }
+  </style>
 </head>
 <body>
-
-  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+<nav class="site-nav" role="navigation" aria-label="Main navigation">
     <a class="site-nav__logo" href="../homepage.html">OrthoNow</a>
-    <div class="site-nav__links">
+    <div class="site-nav__links" id="nav-links">
       <a href="../homepage.html">Home</a>
       <a href="../homepage.html#clinics" class="nav-active">Clinics</a>
       <a href="../homepage.html#blog">Blog</a>
@@ -180,6 +281,10 @@
       <a href="../index.html" class="nav-book">Book Consultation</a>
       <a href="tel:+919319211545" class="nav-call" data-location="nav" data-clinic="Rajouri Garden">Call Now</a>
     </div>
+  
+  <button class="nav-toggle" id="nav-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-links">
+    <span></span><span></span><span></span>
+  </button>
   </nav>
 
   <section class="clinic-hero" aria-labelledby="clinic-title">
@@ -354,8 +459,65 @@
       <path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.117 1.534 5.845L.073 23.927l6.222-1.433A11.942 11.942 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.797 9.797 0 01-5.003-1.374l-.36-.213-3.713.856.882-3.607-.234-.371A9.818 9.818 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/>
     </svg>
     <span class="sr-only">Chat on WhatsApp</span>
-  </a></body>
+  </a>
+  <script>
+    (function () {
+      var btn   = document.getElementById('nav-toggle');
+      var links = document.getElementById('nav-links');
+      if (!btn || !links) return;
+
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = links.classList.contains('is-open');
+        links.classList.toggle('is-open', !open);
+        btn.setAttribute('aria-expanded', String(!open));
+      });
+
+      // Close when any nav link is tapped
+      links.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          links.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      // Close on outside tap
+      document.addEventListener('click', function (e) {
+        if (!btn.contains(e.target) && !links.contains(e.target)) {
+          links.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    })();
+  
+    // WhatsApp float button click tracking
+    document.addEventListener('click', function (e) {
+      var waBtn = e.target.closest('a[href*="wa.me"]');
+      if (!waBtn) return;
+      window.dataLayer.push({
+        event:          'whatsapp_click',
+        click_location: waBtn.dataset.location || 'float_button',
+        page_path:      window.location.pathname,
+        timestamp:      new Date().toISOString()
+      });
+    });
+  </script>
+</body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
